@@ -1,0 +1,17 @@
+{
+  "framework":"mocha",
+  "launch_in_dev":["phantomjs"],
+  "launch_in_ci":["phantomjs"],
+  "phantomjs_debug_port":9000,
+  "src_files":[
+    "js/**/*",
+    "tests/acceptance/**/*"
+  ],
+  "serve_files":[
+    "node_modules/chai/chai.js",
+    "build/acceptance_specs.js"
+  ],
+  "fail_on_zero_tests":true,
+  "before_tests": "gulp acceptance-js"
+}
+

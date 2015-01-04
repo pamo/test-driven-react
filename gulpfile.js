@@ -2,6 +2,7 @@ var gulp = require('gulp'),
     plugins = require('gulp-load-plugins')(),
     _ = require('underscore'),
     del = require('del'),
+    glob = require('glob'),
     source = require('vinyl-source-stream'),
     browserify = require('browserify');
 
@@ -13,7 +14,7 @@ function handleError(err) {
 }
 
 gulp.task('clean', function(cb){
-  del([BUILD_DIR],cb);
+  return del([BUILD_DIR],cb);
 });
 
 gulp.task('copy', function () {
@@ -21,23 +22,37 @@ gulp.task('copy', function () {
     './index.html'
   ];
 
-  gulp.src(inputs)
+  return gulp.src(inputs)
     .pipe(gulp.dest(BUILD_DIR));
 });
 
 gulp.task('js', function() {
   var bundler = browserify({
-      entries: ['./js/app.js'],
+      entries: ['./app.js'],
+      basedir: './js',
       //extensions: ['.jsx'],
       debug: true
     });
   //bundler.transform('reactify');
 
-  bundler.bundle()
+  return bundler.bundle()
     .pipe(source('app.js'))
     .pipe(gulp.dest(BUILD_DIR));
 });
 
+// this task is called from testem's before hook
+gulp.task('acceptance-js', function() {
+  var specFiles = glob.sync('./tests/acceptance/**/*_spec.js');
+  var bundler = browserify({
+    entries: specFiles,
+    debug: true,
+    //extensions: ['.jsx']
+  });
+
+  return bundler.bundle()
+    .pipe(source('acceptance_specs.js'))
+    .pipe(gulp.dest(BUILD_DIR));
+});
 
 gulp.task('build', ['js','copy']);
 
