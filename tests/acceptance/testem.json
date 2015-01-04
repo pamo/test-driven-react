@@ -12,6 +12,7 @@
     "node_modules/jquery/dist/jquery.min.js",
     "node_modules/chai-jquery/chai-jquery.js",
     "tests/phantomjs_shims.js",
+    "build/vendor.js",
     "build/acceptance_specs.js"
   ],
   "fail_on_zero_tests":true,

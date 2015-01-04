@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     browserify = require('browserify');
 
 var BUILD_DIR = 'build';
+var BROWSERIFY_VENDORED_MODULES = ['react','underscore'];
 
 function handleError(err) {
   console.log(err.toString());
@@ -26,9 +27,11 @@ gulp.task('copy', function () {
     .pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task('js', function() {
+gulp.task('app-js', function() {
   var bundler = browserify({
       entries: ['./app.js'],
+      external: BROWSERIFY_VENDORED_MODULES,
+      bundleExternal: false,
       basedir: './js',
       extensions: ['.jsx'],
       debug: true
@@ -40,10 +43,26 @@ gulp.task('js', function() {
     .pipe(gulp.dest(BUILD_DIR));
 });
 
+gulp.task('vendor-js', function() {
+  var bundler = browserify({
+      debug: true
+    });
+
+  BROWSERIFY_VENDORED_MODULES.forEach( function(m){
+    bundler.require(m);
+  });
+
+  return bundler.bundle()
+    .pipe(source('vendor.js'))
+    .pipe(gulp.dest(BUILD_DIR));
+});
+
 // this task is called from testem's before hook
 gulp.task('acceptance-js', function() {
   var specFiles = glob.sync('./tests/acceptance/**/*_spec.js');
   var bundler = browserify({
+    external: BROWSERIFY_VENDORED_MODULES,
+    bundleExternal: false,
     entries: specFiles,
     debug: true,
     extensions: ['.jsx']
@@ -55,13 +74,13 @@ gulp.task('acceptance-js', function() {
     .pipe(gulp.dest(BUILD_DIR));
 });
 
-gulp.task('build', ['js','copy']);
+gulp.task('build', ['vendor-js','app-js','copy']);
 
 gulp.task('watch', ['default'], function(){
   var watchOpts = {debounceDelay:2000}, // workaround for editors saving file twice: http://stackoverflow.com/questions/21608480/gulp-js-watch-task-runs-twice-when-saving-files
       watchTargets = {
     './index.html': ['copy'],
-    './js/**/*': ['js']
+    './js/**/*': ['app-js']
   };
   
   _.each(watchTargets, function(tasks,glob){

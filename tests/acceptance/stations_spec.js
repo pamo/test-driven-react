@@ -1,7 +1,5 @@
 require('./helpers');
 
-var React = require('react/addons');
-
 var bootApp = require('../../js/boot_app');
 
 describe('the main station list', function() {
