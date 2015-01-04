@@ -6,6 +6,7 @@ module.exports = React.createClass({
       <ul>
         <li className="station">Embarcadero</li>
         <li className="station">Civic Center</li>
+        <li className="station">Bayfair</li>
       </ul>
     );
   }

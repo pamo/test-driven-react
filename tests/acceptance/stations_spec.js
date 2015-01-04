@@ -19,7 +19,6 @@ describe('the main station list', function() {
     expect(stationNames).to.include('Embarcadero');
     expect(stationNames).to.include('Civic Center');
     expect(stationNames).to.include('Bayfair');
-
   });
 });
 

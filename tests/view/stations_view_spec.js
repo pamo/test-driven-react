@@ -1,0 +1,33 @@
+var Helpers = require('./helpers');
+var React = require('react/addons');
+
+var StationsView = require('../../js/views/stations_view.jsx');
+
+describe('StationsView', function(){
+  it('defaults to showing an empty list', function(){
+    var stationsView = Helpers.renderIsolatedReactComponent(StationsView);
+    var $view = $(stationsView.getDOMNode());
+
+    expect($view).to.match('ul');
+    expect($view).not.to.have.descendants('li');
+  });
+
+  it('shows a list of station names when provided', function(){
+    var props = {
+      stations: [
+        {name: "First Station"},
+        {name: "Second Station"},
+        {name: "Third Station"},
+      ]
+    };
+    
+    var stationsView = Helpers.renderIsolatedReactComponent(StationsView,props);
+    var $view = $(stationsView.getDOMNode());
+    var $stationItems = $view.find('li');
+
+    expect($stationItems.length).to.equal(3);
+    expect($($stationItems[0])).to.have.text('First Station');
+    expect($($stationItems[1])).to.have.text('Second Station');
+    expect($($stationItems[2])).to.have.text('Third Station');
+  });
+});

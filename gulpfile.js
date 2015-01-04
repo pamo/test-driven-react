@@ -7,7 +7,7 @@ var gulp = require('gulp'),
     browserify = require('browserify');
 
 var BUILD_DIR = 'build';
-var BROWSERIFY_VENDORED_MODULES = ['react','underscore'];
+var BROWSERIFY_VENDORED_MODULES = ['react','react/addons','underscore'];
 
 function handleError(err) {
   console.log(err.toString());
@@ -57,8 +57,8 @@ gulp.task('vendor-js', function() {
 });
 
 // this task is called from testem's before hook
-gulp.task('acceptance-js', function() {
-  var specFiles = glob.sync('./tests/acceptance/**/*_spec.js');
+gulp.task('browser-specs-js', function() {
+  var specFiles = glob.sync('./tests/{view,acceptance}/**/*_spec.js');
   var bundler = browserify({
     entries: specFiles,
     debug: true,
@@ -68,7 +68,7 @@ gulp.task('acceptance-js', function() {
   bundler.external(BROWSERIFY_VENDORED_MODULES);
 
   return bundler.bundle()
-    .pipe(source('acceptance_specs.js'))
+    .pipe(source('browser_specs.js'))
     .pipe(gulp.dest(BUILD_DIR));
 });
 
