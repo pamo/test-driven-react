@@ -30,13 +30,12 @@ gulp.task('copy', function () {
 gulp.task('app-js', function() {
   var bundler = browserify({
       entries: ['./app.js'],
-      external: BROWSERIFY_VENDORED_MODULES,
-      bundleExternal: false,
       basedir: './js',
       extensions: ['.jsx'],
       debug: true
     });
   bundler.transform('reactify');
+  bundler.external(BROWSERIFY_VENDORED_MODULES);
 
   return bundler.bundle()
     .pipe(source('app.js'))
@@ -61,13 +60,12 @@ gulp.task('vendor-js', function() {
 gulp.task('acceptance-js', function() {
   var specFiles = glob.sync('./tests/acceptance/**/*_spec.js');
   var bundler = browserify({
-    external: BROWSERIFY_VENDORED_MODULES,
-    bundleExternal: false,
     entries: specFiles,
     debug: true,
     extensions: ['.jsx']
   });
   bundler.transform('reactify');
+  bundler.external(BROWSERIFY_VENDORED_MODULES);
 
   return bundler.bundle()
     .pipe(source('acceptance_specs.js'))
