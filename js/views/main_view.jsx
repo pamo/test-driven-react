@@ -1,13 +1,9 @@
-var React = require('react');
+var React = require('react'),
+    StationsView = require('./stations_view');
+
 
 module.exports = React.createClass({
   render: function(){
-    return (
-      <ul>
-        <li className="station">Embarcadero</li>
-        <li className="station">Civic Center</li>
-        <li className="station">Bayfair</li>
-      </ul>
-    );
+    return <StationsView stations={this.props.stations}/>;
   }
 });

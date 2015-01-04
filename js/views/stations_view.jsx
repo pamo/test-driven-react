@@ -4,7 +4,7 @@ var React = require('react'),
 module.exports = React.createClass({
   render: function(){
     var stationNodes = _.map( this.props.stations, function(station,ix){
-      return <li key={ix}>{station.name}</li>;
+      return <li className="station" key={ix}>{station.name}</li>;
     });
     return (
       <ul>
