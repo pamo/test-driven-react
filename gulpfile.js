@@ -30,10 +30,10 @@ gulp.task('js', function() {
   var bundler = browserify({
       entries: ['./app.js'],
       basedir: './js',
-      //extensions: ['.jsx'],
+      extensions: ['.jsx'],
       debug: true
     });
-  //bundler.transform('reactify');
+  bundler.transform('reactify');
 
   return bundler.bundle()
     .pipe(source('app.js'))
@@ -46,8 +46,9 @@ gulp.task('acceptance-js', function() {
   var bundler = browserify({
     entries: specFiles,
     debug: true,
-    //extensions: ['.jsx']
+    extensions: ['.jsx']
   });
+  bundler.transform('reactify');
 
   return bundler.bundle()
     .pipe(source('acceptance_specs.js'))

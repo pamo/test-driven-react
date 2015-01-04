@@ -1,3 +1,9 @@
-var React = require('react');
+var bootApp = require('./boot_app');
 
-window.alert('hello, world');
+var boot = function(){
+  var appContainer = document.getElementsByTagName('main')[0];
+  bootApp(appContainer);
+};
+
+setTimeout( boot, 0 );
+
