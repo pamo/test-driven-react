@@ -1,11 +1,11 @@
 require('./helpers');
 
-var bootApp = require('../../js/boot_app');
+var boot = require('../../js/boot');
 
 describe('the main station list', function() {
   it('lists some stations', function() {
     appContainer = document.createElement('main');
-    bootApp(appContainer);
+    boot(appContainer);
 
     expect($(appContainer)).to.exist;
 

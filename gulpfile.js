@@ -4,7 +4,10 @@ var gulp = require('gulp'),
     del = require('del'),
     glob = require('glob'),
     source = require('vinyl-source-stream'),
+    through = require('through'),
+    notifier = require("node-notifier"),
     browserify = require('browserify');
+    
 
 var BUILD_DIR = 'build';
 var BROWSERIFY_VENDORED_MODULES = ['react','react/addons','underscore'];
@@ -72,13 +75,28 @@ gulp.task('browser-specs-js', function() {
     .pipe(gulp.dest(BUILD_DIR));
 });
 
+gulp.task('unit-test', function() {
+  var notifyError = plugins.notify.onError({
+    title: "unit tests failed",
+    message: "<%= error.message %>"
+  });
+
+  return gulp.src(['tests/unit/**/*_spec.js'],{read:false})
+    .pipe(plugins.mocha({
+      ui: 'bdd',
+      useColors: false,
+    }))
+    .on("error", notifyError)
+});
+
 gulp.task('build', ['vendor-js','app-js','copy']);
 
 gulp.task('watch', ['default'], function(){
   var watchOpts = {debounceDelay:2000}, // workaround for editors saving file twice: http://stackoverflow.com/questions/21608480/gulp-js-watch-task-runs-twice-when-saving-files
       watchTargets = {
     './index.html': ['copy'],
-    './js/**/*': ['app-js']
+    './js/**/*': ['unit-test','app-js'],
+    './tests/unit/**/*': ['unit-test']
   };
   
   _.each(watchTargets, function(tasks,glob){
@@ -87,4 +105,4 @@ gulp.task('watch', ['default'], function(){
 });
 
 
-gulp.task('default', ['clean','build']);
+gulp.task('default', ['clean','unit-test','build']);
