@@ -1,5 +1,8 @@
 var Helpers = require('./helpers');
-var React = require('react/addons');
+var React = require('react/addons'),
+    TestUtils = React.addons.TestUtils,
+    sinon = require('sinon');
+
 
 var StationsView = require('../../js/views/stations_view.jsx');
 
@@ -23,11 +26,28 @@ describe('StationsView', function(){
     
     var stationsView = Helpers.renderIsolatedReactComponent(StationsView,props);
     var $view = $(stationsView.getDOMNode());
-    var $stationItems = $view.find('li');
+    var $stationItems = $view.find('.station');
 
     expect($stationItems.length).to.equal(3);
     expect($($stationItems[0])).to.have.text('First Station');
     expect($($stationItems[1])).to.have.text('Second Station');
     expect($($stationItems[2])).to.have.text('Third Station');
   });
+  
+  it('calls a handler whenever a station is clicked', function(){
+    var props = {
+      stations: [
+        {name: "Some Station", id: 'station-id'}
+      ],
+      onStationClicked: sinon.spy()
+    };
+
+    var stationsView = Helpers.renderIsolatedReactComponent(StationsView,props);
+
+    station = TestUtils.findRenderedDOMComponentWithClass( stationsView, 'station' );
+    TestUtils.Simulate.click(station);
+
+    expect(props.onStationClicked).to.have.been.calledWith('station-id');
+  });
+
 });

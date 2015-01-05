@@ -4,7 +4,7 @@ var Helpers = require('./helpers'),
 var createStationRepo = require('../../js/station_repo');
 
 var looksLikeStation = function(station){
-  var expectedProperties = ["name","abbr"];
+  var expectedProperties = ["name","id"];
   _.each(expectedProperties,function(prop){
     expect(station[prop]).not.to.be.empty;
   });

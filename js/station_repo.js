@@ -1,12 +1,12 @@
 var createStationRepo = function(){
   var getStations = function(){
     return [
-      {abbr:"embr", name:"Embarcadero"},
-      {abbr:"plza", name:"El Cerrito Plaza"},
-      {abbr:"nbrk", name:"North Berkeley"},
-      {abbr:"dbrk", name:"Downtown Berkeley"},
-      {abbr:"____", name:"Civic Center"},
-      {abbr:"____", name:"Bayfair"}
+      {id:"embr", name:"Embarcadero"},
+      {id:"plza", name:"El Cerrito Plaza"},
+      {id:"nbrk", name:"North Berkeley"},
+      {id:"dbrk", name:"Downtown Berkeley"},
+      {id:"civc", name:"Civic Center"},
+      {id:"bayf", name:"Bayfair"}
     ];
   };
 

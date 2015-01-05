@@ -3,8 +3,10 @@ var React = require('react'),
 
 module.exports = React.createClass({
   render: function(){
-    var stationNodes = _.map( this.props.stations, function(station,ix){
-      return <li className="station" key={ix}>{station.name}</li>;
+    var onStationClicked = this.props.onStationClicked;
+    var stationNodes = _.map( this.props.stations, function(station){
+      var clickHandler = _.partial(onStationClicked,station.id);
+      return <li className="station" key={station.id} onClick={clickHandler}>{station.name}</li>;
     });
     return (
       <ul>
