@@ -2,7 +2,8 @@ var appController = function(appRenderer,stationsRepo){
   var stations = stationsRepo.getStations();
 
   var appState = {
-    stations: stations
+    stations: stations,
+    onStationClicked: function(){}
   };
 
   appRenderer(appState);

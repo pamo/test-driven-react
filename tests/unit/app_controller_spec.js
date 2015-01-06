@@ -38,6 +38,25 @@ describe( 'appController', function(){
     var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
     expect( appStatePassedToRenderer ).to.have.property('stations');
     expect( appStatePassedToRenderer.stations ).to.equal(stationsFromRepo);
-
   });
+
+  it('passes onStationClicked handler to app state', function(){
+    var stationsFromRepo = [
+          {name:"station one"},
+          {name:"station two"}
+        ],
+        fakeStationsRepo = {
+          getStations: _.constant(stationsFromRepo)
+        },
+        spyRenderer = sinon.spy();
+
+    appController(spyRenderer,fakeStationsRepo);
+
+    expect(spyRenderer).to.have.been.called;
+    var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
+    expect( appStatePassedToRenderer ).to.have.property('onStationClicked');
+    expect( appStatePassedToRenderer.onStationClicked ).to.satisfy(_.isFunction);
+  });
+
+
 });
