@@ -1,6 +1,7 @@
+var _ = require('underscore');
+
 var createStationRepo = function(){
-  var getStations = function(){
-    return [
+  var STATIONS = [
       {id:"embr", name:"Embarcadero"},
       {id:"plza", name:"El Cerrito Plaza"},
       {id:"nbrk", name:"North Berkeley"},
@@ -8,10 +9,18 @@ var createStationRepo = function(){
       {id:"civc", name:"Civic Center"},
       {id:"bayf", name:"Bayfair"}
     ];
+
+  var getStations = function(){
+    return STATIONS;
+  };
+
+  var getStationById = function(stationId){
+    return _.findWhere(STATIONS, {id: stationId});
   };
 
   return {
-    getStations:getStations
+    getStations:getStations,
+    getStationById: getStationById
   };
 };
 

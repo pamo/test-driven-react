@@ -58,5 +58,31 @@ describe( 'appController', function(){
     expect( appStatePassedToRenderer.onStationClicked ).to.satisfy(_.isFunction);
   });
 
+  it('responds to a station being clicked by showing station details for that station', function(){
+    var stationsFromRepo = [
+          {name:"station one"},
+          {name:"station two"}
+        ],
+        fakeStationsRepo = {
+          getStations: _.constant(stationsFromRepo)
+        },
+        spyRenderer = sinon.spy();
+
+    appController(spyRenderer,fakeStationsRepo);
+    expect(spyRenderer).to.have.been.calledOnce;
+
+    var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
+    appStatePassedToRenderer.onStationClicked('the-station-id');
+
+    expect(spyRenderer).to.have.been.calledTwice;
+
+    var appStatePassedToRendererTheSecondTime = spyRenderer.secondCall.args[0];
+
+    expect( appStatePassedToRendererTheSecondTime ).not.to.have.property('stations');
+    expect( appStatePassedToRendererTheSecondTime ).to.have.property('station');
+
+    // TODO
+    //expect( appStatePassedToRendererTheSecondTime.station ).to.have.property('name',"the station name");
+  })
 
 });
