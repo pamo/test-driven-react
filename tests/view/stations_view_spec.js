@@ -23,7 +23,7 @@ describe('StationsView', function(){
         {name: "Third Station"},
       ]
     };
-    
+
     var stationsView = Helpers.renderIsolatedReactComponent(StationsView,props);
     var $view = $(stationsView.getDOMNode());
     var $stationItems = $view.find('.station');
@@ -33,7 +33,7 @@ describe('StationsView', function(){
     expect($($stationItems[1])).to.have.text('Second Station');
     expect($($stationItems[2])).to.have.text('Third Station');
   });
-  
+
   it('calls a handler whenever a station is clicked', function(){
     var props = {
       stations: [

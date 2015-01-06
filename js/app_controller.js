@@ -2,8 +2,8 @@ var appController = function(appRenderer,stationsRepo){
   var stations = stationsRepo.getStations();
 
   var onStationClicked = function(stationId){
-	console.log("Clicked on".concat(stationId));
-	appRenderer({station: "slime"});
+    var appState = {station:stationsRepo.getStationById(stationId)};
+    appRenderer(appState);
   };
 
   var appState = {

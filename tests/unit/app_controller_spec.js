@@ -2,9 +2,11 @@ var Helpers = require('./helpers'),
     _ = require('underscore'),
     sinon = require('sinon');
 
-var appController = require('../../js/app_controller');
+var appController = require('../../js/app_controller'),
+    createStationRepo = require('../../js/station_repo');
 
-var nullRenderer = _.identity;
+var nullRenderer = _.identity,
+    genericStationRepo = createStationRepo([]);
 
 describe( 'appController', function(){
   it('exists', function(){
@@ -27,12 +29,10 @@ describe( 'appController', function(){
           {name:"station one"},
           {name:"station two"}
         ],
-        fakeStationsRepo = {
-          getStations: _.constant(stationsFromRepo)
-        },
+        stationRepo = createStationRepo(stationsFromRepo),
         spyRenderer = sinon.spy();
 
-    appController(spyRenderer,fakeStationsRepo);
+    appController(spyRenderer,stationRepo);
 
     expect(spyRenderer).to.have.been.called;
     var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
@@ -41,16 +41,9 @@ describe( 'appController', function(){
   });
 
   it('passes onStationClicked handler to app state', function(){
-    var stationsFromRepo = [
-          {name:"station one"},
-          {name:"station two"}
-        ],
-        fakeStationsRepo = {
-          getStations: _.constant(stationsFromRepo)
-        },
-        spyRenderer = sinon.spy();
+    var spyRenderer = sinon.spy();
 
-    appController(spyRenderer,fakeStationsRepo);
+    appController(spyRenderer,genericStationRepo);
 
     expect(spyRenderer).to.have.been.called;
     var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
@@ -60,19 +53,18 @@ describe( 'appController', function(){
 
   it('responds to a station being clicked by showing station details for that station', function(){
     var stationsFromRepo = [
-          {name:"station one"},
-          {name:"station two"}
+          {id: 's1', name:"station one"},
+          {id: 's2', name:"station two"}
         ],
-        fakeStationsRepo = {
-          getStations: _.constant(stationsFromRepo)
-        },
+        targetStation = stationsFromRepo[1],
+        stationRepo = createStationRepo(stationsFromRepo),
         spyRenderer = sinon.spy();
 
-    appController(spyRenderer,fakeStationsRepo);
+    appController(spyRenderer,stationRepo);
     expect(spyRenderer).to.have.been.calledOnce;
 
     var appStatePassedToRenderer = spyRenderer.firstCall.args[0];
-    appStatePassedToRenderer.onStationClicked('the-station-id');
+    appStatePassedToRenderer.onStationClicked(targetStation.id);
 
     expect(spyRenderer).to.have.been.calledTwice;
 
@@ -81,8 +73,7 @@ describe( 'appController', function(){
     expect( appStatePassedToRendererTheSecondTime ).not.to.have.property('stations');
     expect( appStatePassedToRendererTheSecondTime ).to.have.property('station');
 
-    // TODO
-    //expect( appStatePassedToRendererTheSecondTime.station ).to.have.property('name',"the station name");
+    expect( appStatePassedToRendererTheSecondTime.station ).to.equal(targetStation);
   })
 
 });
