@@ -24,4 +24,21 @@ describe('MainView', function(){
         expect(stationDetailView).to.exist;
     });
 
+    it('renders a station detail view with station detail properties', function(){
+        var appState = {
+            station: {
+                id: 'sid',
+                name: 'station name'
+            }
+        };
+        var mainView = Helpers.renderIsolatedReactComponent(MainView, appState);
+
+        var stationDetailView = TestUtils.findRenderedComponentWithType(mainView, StationDetailView);
+        var renderedStation = mainView.props.station;
+
+        expect(renderedStation).to.exist;
+        expect(renderedStation.id).to.equal(appState.station.id);
+        expect(renderedStation.name).to.equal(appState.station.name);
+    });
+
 });

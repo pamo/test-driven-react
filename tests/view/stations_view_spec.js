@@ -36,9 +36,10 @@ describe('StationsView', function(){
 
   it('calls a handler whenever a station is clicked', function(){
     var props = {
-      stations: [
-        {name: "Some Station", id: 'station-id'}
-      ],
+      stations: [{
+          name: 'Estazione',
+          id: 'etsz'
+      }],
       onStationClicked: sinon.spy()
     };
 
@@ -47,7 +48,7 @@ describe('StationsView', function(){
     station = TestUtils.findRenderedDOMComponentWithClass( stationsView, 'station' );
     TestUtils.Simulate.click(station);
 
-    expect(props.onStationClicked).to.have.been.calledWith('station-id');
+    expect(props.onStationClicked).to.have.been.calledWith(props.stations[0].id);
   });
 
 });

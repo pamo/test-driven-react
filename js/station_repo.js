@@ -11,7 +11,6 @@ var DEFAULT_STATIONS = [
 
 var createStationRepo = function(stations){
   stations = stations || DEFAULT_STATIONS;
-    
 
   var getStations = function(){
     return stations;

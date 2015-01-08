@@ -7,7 +7,7 @@ var React = require('react'),
 module.exports = React.createClass({
   render: function(){
     if(this.props.station){
-        return <StationDetailView/>;
+        return <StationDetailView {...this.props}/>;
     }
     else {
         return <StationsView {...this.props}/>;
