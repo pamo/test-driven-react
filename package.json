@@ -1,11 +1,11 @@
 {
-  "name": "GoReactMon",
+  "name": "test-driven-client-side-apps",
   "version": "0.0.1",
-  "description": "A GoCD build monitor written in React",
+  "description": "",
   "scripts": {
     "test": "testem -f tests/testem.json ci"
   },
-  "author": "pamo@thoughtworks.com",
+  "author": "phodgson@thoughtworks.com",
   "license": "MIT",
   "devDependencies": {
     "browserify": "^8.0.3",
