@@ -1,16 +1,8 @@
 var React = require('react'),
-    _ = require('underscore'),
-    StationDetailView = require('./station_detail_view'),
-    StationsView = require('./stations_view');
+    _ = require('underscore');
 
 
 module.exports = React.createClass({
   render: function(){
-    if(this.props.station){
-        return <StationDetailView {...this.props}/>;
-    }
-    else {
-        return <StationsView {...this.props}/>;
-    }
   }
 });
